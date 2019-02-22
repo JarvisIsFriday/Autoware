@@ -33,6 +33,8 @@ if (OPENMP_FOUND)
 endif ()
 
 catkin_package(
+        INCLUDE_DIRS include
+        LIBRARIES object_map_utils_lib
         CATKIN_DEPENDS
         roscpp
         pcl_ros
