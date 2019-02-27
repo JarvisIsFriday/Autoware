@@ -709,6 +709,27 @@ subs :
         desc : lattice_twist_convert desc sample
         cmd  : rosrun lattice_planner lattice_twist_convert
 
+  - name : Emergency Stop
+    desc : emergency stop groups
+    subs :
+    - name : stop_area
+      desc : stop_area
+      cmd  : roslaunch emergency_stop stop_area.launch
+      param: stop_area
+      gui  :
+        vehicle_center_to_base:
+          depend : use_vehicle_info_param
+          depend_bool : 'lambda v : v == 0'
+        vehicle_length:
+          depend : use_vehicle_info_param
+          depend_bool : 'lambda v : v == 0'
+        vehicle_width:
+          depend : use_vehicle_info_param
+          depend_bool : 'lambda v : v == 0'
+        vehicle_height:
+          depend : use_vehicle_info_param
+          depend_bool : 'lambda v : v == 0'
+
   - name : Decision
     desc : decision groups
     subs :
@@ -1959,6 +1980,209 @@ params :
       cmd_param :
         dash        : ''
         delim       : ':='
+
+  - name  : stop_area
+    topic : /config/stop_area
+    msg   : ConfigStopArea
+    vars  :
+    - name  : input_point_topic
+      desc  : input_point_topic
+      label : input_point_topic
+      kind  : topic
+      topic_type : sensor_msgs/PointCloud2
+      v    : /points_raw
+      cmd_param:
+              dash : ''
+              delim: ':='
+    - name  : baselink_frame
+      desc  : baselink_frame
+      label : baselink_frame
+      kind  : str
+      v    : /base_link
+      cmd_param:
+              dash : ''
+              delim: ':='
+    - name  : sim_time
+      desc  : sim_time
+      label : sim_time
+      min   : 0.1
+      max   : 10.0
+      v     : 1.0
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : sim_time_delta
+      desc  : sim_time_delta
+      label : sim_time_delta
+      min   : 0.01
+      max   : 1.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : filtering_radius
+      desc  : filtering_radius
+      label : filtering_radius
+      min   : 0.0
+      max   : 10.0
+      v     : 0.5
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : filtering_points_size
+      desc  : filtering_points_size
+      label : filtering_points_size
+      min   : 0
+      max   : 100
+      v     : 5
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_front
+      desc  : offset_front
+      label : offset_front
+      min   : -10.0
+      max   : 10.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_rear
+      desc  : offset_rear
+      label : offset_rear
+      min   : -10.0
+      max   : 10.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_left
+      desc  : offset_left
+      label : offset_left
+      min   : -10.0
+      max   : 10.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_right
+      desc  : offset_right
+      label : offset_right
+      min   : -10.0
+      max   : 10.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_top
+      desc  : offset_top
+      label : offset_top
+      min   : -10.0
+      max   : 10.0
+      v     : 0.1
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : offset_bottom
+      desc  : offset_bottom
+      label : offset_bottom
+      min   : -10.0
+      max   : 10.0
+      v     : -0.3
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : use_vehicle_info_param
+      desc  : use_vehicle_info_param
+      label : use_vehicle_info_param
+      kind  : checkbox
+      v     : True
+    - name  : vehicle_info_length
+      desc  : vehicle_info_length
+      label : vehicle_info_length
+      min   : 0
+      max   : 10.0
+      v     : 5.0
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_width
+      desc  : vehicle_info_width
+      label : vehicle_info_width
+      min   : 0
+      max   : 10.0
+      v     : 2.0
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_height
+      desc  : vehicle_info_height
+      label : vehicle_info_height
+      min   : 0
+      max   : 10.0
+      v     : 2.0
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_wheel_base
+      desc  : vehicle_info_wheel_base
+      label : vehicle_info_wheel_base
+      min   : 0
+      max   : 10.0
+      v     : 2.95
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_tread_front
+      desc  : vehicle_info_tread_front
+      label : vehicle_info_tread_front
+      min   : 0
+      max   : 10.0
+      v     : 1.5
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_tread_rear
+      desc  : vehicle_info_tread_rear
+      label : vehicle_info_tread_rear
+      min   : 0
+      max   : 10.0
+      v     : 1.5
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+    - name  : vehicle_info_center_to_base
+      desc  : vehicle_info_center_to_base
+      label : vehicle_info_center_to_base
+      min   : -10.0
+      max   : 10.0
+      v     : -1.5
+      cmd_param :
+        dash    : ''
+        delim   : ':='
+
+  - name  : planner_selector
+    topic : /config/PlannerSelector
+    msg   : ConfigPlannerSelector
+    vars  :
+    - name : latency_num
+      desc : latency_num
+      label: latency_num
+      min  : 0
+      max  : 200
+      v    : 10
+    - name : waypoints_num
+      desc : waypoints_num
+      label: waypoints_num
+      min  : 0
+      max  : 30
+      v    : 8
+    - name : convergence_num
+      desc : convergence_num
+      label: convergence_num
+      min  : 0.0
+      max  : 30.0
+      v    : 2.0
 
   - name  : decision_maker
     topic : /config/decision_maker

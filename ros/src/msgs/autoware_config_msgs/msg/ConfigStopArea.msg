@@ -1,0 +1,21 @@
+float32 sim_time
+float32 sim_time_delta
+
+float32 filtering_radius
+int32 filtering_points_size
+
+float32 offset_front
+float32 offset_rear
+float32 offset_left
+float32 offset_right
+float32 offset_top
+float32 offset_bottom
+
+bool use_vehicle_info_param
+float32 vehicle_info_length
+float32 vehicle_info_width
+float32 vehicle_info_height
+float32 vehicle_info_wheel_base
+float32 vehicle_info_tread_front
+float32 vehicle_info_tread_rear
+float32 vehicle_info_center_to_base
