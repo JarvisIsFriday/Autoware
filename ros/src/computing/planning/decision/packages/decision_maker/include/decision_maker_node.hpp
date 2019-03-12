@@ -153,6 +153,7 @@ private:
   double change_threshold_angle_;
   double goal_threshold_dist_;
   double goal_threshold_vel_;
+  double time_to_avoidance_;
   int stopline_reset_count_;
 
   // initialization method
@@ -282,6 +283,10 @@ private:
   void updateGoState(cstring_t& state_name, int status);
   void updateWaitState(cstring_t& state_name, int status);
   void updateStopState(cstring_t& state_name, int status);
+  void updateTryAvoidanceState(cstring_t& state_name, int status);
+  void updateCheckAvoidanceState(cstring_t& state_name, int status);
+  void updateAvoidanceState(cstring_t& state_name, int status);
+  void updateReturnToLaneState(cstring_t& state_name, int status);
   void updateCheckLeftLaneState(cstring_t& state_name, int status);
   void updateCheckRightLaneState(cstring_t& state_name, int status);
   void updateChangeToLeftState(cstring_t& state_name, int status);
@@ -336,6 +341,7 @@ public:
     , change_threshold_angle_(15)
     , goal_threshold_dist_(3.0)
     , goal_threshold_vel_(0.1)
+    , time_to_avoidance_(3.0)
     , stopline_reset_count_(20)
   {
     std::string file_name_mission;
@@ -361,6 +367,7 @@ public:
     private_nh_.getParam("change_threshold_angle", change_threshold_angle_);
     private_nh_.getParam("goal_threshold_dist", goal_threshold_dist_);
     private_nh_.getParam("goal_threshold_vel", goal_threshold_vel_);
+    private_nh_.getParam("time_to_avoidance", time_to_avoidance_);
     private_nh_.getParam("stopline_reset_count", stopline_reset_count_);
     current_status_.prev_stopped_wpidx = -1;
   }

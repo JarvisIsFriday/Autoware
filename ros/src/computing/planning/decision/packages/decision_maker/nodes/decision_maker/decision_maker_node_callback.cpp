@@ -54,6 +54,7 @@ void DecisionMakerNode::callbackFromConfig(const autoware_config_msgs::ConfigDec
   goal_threshold_dist_ = msg.goal_threshold_dist;
   goal_threshold_vel_ = msg.goal_threshold_vel;
   disuse_vector_map_ = msg.disuse_vector_map;
+  time_to_avoidance_ = msg.time_to_avoidance;
 }
 
 void DecisionMakerNode::callbackFromLightColor(const ros::MessageEvent<autoware_msgs::TrafficLight const>& event)
