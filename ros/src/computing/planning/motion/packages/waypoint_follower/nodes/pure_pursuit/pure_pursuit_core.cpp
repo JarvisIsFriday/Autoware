@@ -119,10 +119,10 @@ void PurePursuitNode::run()
     pub12_.publish(displayNextTarget(pp_.getPoseOfNextTarget()));
     pub15_.publish(displayTrajectoryCircle(
         waypoint_follower::generateTrajectoryCircle(pp_.getPoseOfNextTarget(), pp_.getCurrentPose())));
-    pub18_.publish(displayExpandWaypoints(pp_.getCurrentWaypoints(), expand_size_));
     std_msgs::Float32 angular_gravity_msg;
     angular_gravity_msg.data = computeAngularGravity(computeCommandVelocity(), kappa);
     pub16_.publish(angular_gravity_msg);
+    pub21_.publish(displayExpandWaypoints(pp_.getCurrentWaypoints(), expand_size_));
 
     publishDeviationCurrentPosition(pp_.getCurrentPose().position, pp_.getCurrentWaypoints());
 
