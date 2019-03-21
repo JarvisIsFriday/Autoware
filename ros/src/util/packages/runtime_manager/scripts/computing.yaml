@@ -5582,11 +5582,20 @@ params :
         dash      : ''
         delim     : ':='
     - name  : sensor_height
-      desc  : sensor_height desc sample
+      desc  : Used for height in visualizing path markers
       label : sensor_height
       min     : 0.0
       max     : 5.0
       v       : 2.0
+      cmd_param :
+        dash      : ''
+        delim     : ':='
+    - name  : minimum_prediction_velocity_threshold
+      desc  : Does not predict less than this velocity
+      label : minimum_prediction_velocity_threshold
+      min     : 0.0
+      max     : 5.0
+      v       : 0.1
       cmd_param :
         dash      : ''
         delim     : ':='
