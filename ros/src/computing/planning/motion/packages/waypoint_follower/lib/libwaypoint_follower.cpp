@@ -158,7 +158,8 @@ double getRelativeAngle(geometry_msgs::Pose waypoint_pose, geometry_msgs::Pose v
 }
 
 // get closest waypoint from current pose
-int getClosestWaypoint(const autoware_msgs::Lane &current_path, geometry_msgs::Pose current_pose)
+// prev_index: default arg = 1
+int getClosestWaypoint(const autoware_msgs::Lane &current_path, geometry_msgs::Pose current_pose, int prev_index)
 {
   WayPoints wp;
   wp.setPath(current_path);
@@ -169,7 +170,9 @@ int getClosestWaypoint(const autoware_msgs::Lane &current_path, geometry_msgs::P
   // search closest candidate within a certain meter
   double search_distance = 5.0;
   std::vector<int> waypoint_candidates;
-  for (int i = 1; i < wp.getSize(); i++)
+  int dt = 5;
+  int end_index = prev_index + dt < wp.getSize() ? prev_index + dt : wp.getSize();
+  for (int i = prev_index; i < end_index; i++)
   {
     if (getPlaneDistance(wp.getWaypointPosition(i), current_pose.position) > search_distance)
       continue;

@@ -191,7 +191,7 @@ void AstarAvoid::run()
     }
     else if (state_ == AstarAvoid::STATE::AVOIDING)
     {
-      bool reached = (getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose) > end_of_avoid_index);
+      bool reached = (getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose, closest_waypoint_index_) > end_of_avoid_index);
       if (reached)
       {
         ROS_INFO("AVOIDING -> RELAYING, Reached goal");
@@ -234,7 +234,7 @@ bool AstarAvoid::checkInitialized()
 bool AstarAvoid::planAvoidWaypoints(int& end_of_avoid_index)
 {
   bool found_path = false;
-  int closest_waypoint_index = getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose);
+  int closest_waypoint_index = getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose, closest_waypoint_index_);
 
   // update goal pose incrementally and execute A* search
   for (int i = search_waypoints_delta_; i < static_cast<int>(search_waypoints_size_); i += search_waypoints_delta_)
@@ -296,7 +296,7 @@ void AstarAvoid::mergeAvoidWaypoints(const nav_msgs::Path& path, const int& end_
   avoid_waypoints_.waypoints.clear();
 
   // add waypoints before start index
-  int closest_waypoint_index = getClosestWaypoint(current_waypoints, current_pose_global_.pose);
+  int closest_waypoint_index = getClosestWaypoint(current_waypoints, current_pose_global_.pose, closest_waypoint_index_);
   for (int i = 0; i < closest_waypoint_index; ++i)
   {
     avoid_waypoints_.waypoints.push_back(current_waypoints.waypoints.at(i));
@@ -353,7 +353,7 @@ void AstarAvoid::publishWaypoints()
     // push waypoints from closest index
     for (int i = 0; i < safety_waypoints_size_; ++i)
     {
-      int index = getClosestWaypoint(current_waypoints, current_pose_global_.pose) + i;
+      int index = getClosestWaypoint(current_waypoints, current_pose_global_.pose, closest_waypoint_index_) + i;
       if (index < 0 || static_cast<int>(current_waypoints.waypoints.size()) <= index)
       {
         break;
