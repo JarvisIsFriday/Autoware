@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   waypoint_follower
   autoware_msgs
   vector_map
+  autoware_map
   astar_search
 )
 
@@ -24,6 +25,7 @@ catkin_package(
   waypoint_follower
   autoware_msgs
   vector_map
+  autoware_map
   astar_search
 )
 
@@ -60,7 +62,24 @@ add_dependencies(velocity_set
   ${catkin_EXPORTED_TARGETS}
 )
 
-install(TARGETS astar_avoid velocity_set
+add_executable(autowaremap_velocity_set
+  src/autowaremap_velocity_set/autowaremap_velocity_set.cpp
+  src/velocity_set/velocity_set_path.cpp
+  src/velocity_set/velocity_set_info.cpp
+  src/velocity_set/libvelocity_set.cpp
+  src/autowaremap_velocity_set/crosswalk.cpp
+  src/autowaremap_velocity_set/crosswalk_manager.cpp
+)
+
+target_link_libraries(autowaremap_velocity_set
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(autowaremap_velocity_set
+  ${catkin_EXPORTED_TARGETS}
+)
+
+install(TARGETS astar_avoid velocity_set autowaremap_velocity_set
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

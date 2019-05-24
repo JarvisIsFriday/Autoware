@@ -1697,6 +1697,14 @@ params :
     topic : /config/velocity_set
     msg   : ConfigVelocitySet
     vars  :
+    - name  : use_autoware_map
+      desc  : Use autoware map format for crosswalk detection
+      label : Use Autoware Map
+      kind  : checkbox
+      v     : False
+      cmd_param:
+        dash     : ''
+        delim    : ':='
     - name  : use_crosswalk_detection
       desc  : use_crosswalk_detection desc sample
       label : Use Crosswalk Detection
@@ -1733,6 +1741,15 @@ params :
       min   : 0
       max   : 50
       v     : 5.0
+    - name  : vehicle_length
+      desc  : length of vehicle from base_link to head. (crosswalk will be ignored when head crosses virtual stopline)
+      label : vehicle length (m)
+      min   : 0
+      max   : 10
+      v     : 5.0
+      cmd_param:
+        dash     : ''
+        delim    : ':='
     - name  : detection_range
       desc  : detection_range desc sample
       label : Detection Range (m)
