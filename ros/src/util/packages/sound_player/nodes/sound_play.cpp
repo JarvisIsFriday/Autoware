@@ -245,8 +245,13 @@ void obstacleCallback(const visualization_msgs::Marker::ConstPtr &msg)
     return;
   }
 
+  const double dis = distance(msg->pose.position, makePoint(90309.2349, 94861.7154, 144.8269));
+  if(dis <= 2.0) {
+    return;
+  }
+
   if((now - prev).toSec() >= 3.0) {
-    playSound(state_sound_list["Alert"]);
+    playSound("Alert");
     prev = now;
   }
 }

@@ -16,7 +16,7 @@
 
 #include "naive_motion_predict.h"
 
-NaiveMotionPredict::NaiveMotionPredict() : nh_(), private_nh_("~")
+NaiveMotionPredict::NaiveMotionPredict() : nh_(), private_nh_("~"), MAX_PREDICTION_SCORE_(1.0)
 {
   private_nh_.param<double>("interval_sec", interval_sec_, 0.1);
   private_nh_.param<int>("num_prediction", num_prediction_, 10);

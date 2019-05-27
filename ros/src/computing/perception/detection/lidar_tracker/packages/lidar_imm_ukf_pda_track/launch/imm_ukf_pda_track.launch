@@ -45,6 +45,6 @@
         output="screen" ns="$(arg namespace)"/>
 
   <node pkg="topic_tools" type="relay" name="ukf_track_relay_01"
-        output="screen" args="$(arg namespace)/objects /detection/objects"/>
+        output="screen" args="/detection/objects $(arg namespace)/objects"/>
 
 </launch>
