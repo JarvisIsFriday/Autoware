@@ -343,7 +343,7 @@ void DecisionMakerNode::updateStoplineState(cstring_t& state_name, int status)
   static bool timerflag = false;
   static ros::Timer stopping_timer;
 
-  if (current_status_.velocity == 0.0 && !timerflag && (current_status_.obstacle_waypoint + current_status_.closest_waypoint) == current_status_.found_stopsign_idx)
+  if (current_status_.velocity == 0.0 && !timerflag && current_status_.stopline_waypoint != -1 && (current_status_.stopline_waypoint + current_status_.closest_waypoint) == current_status_.found_stopsign_idx)
   {
     stopping_timer = nh_.createTimer(ros::Duration(0.5),
                                      [&](const ros::TimerEvent&) {
