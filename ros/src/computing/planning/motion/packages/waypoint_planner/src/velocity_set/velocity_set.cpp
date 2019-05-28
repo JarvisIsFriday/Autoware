@@ -621,7 +621,7 @@ int main(int argc, char** argv)
       stopline_waypoint_index.data = -1;
     }
     obstacle_waypoint_pub.publish(obstacle_waypoint_index);
-    stopline_waypoint_pub.publish(obstacle_waypoint_index);
+    stopline_waypoint_pub.publish(stopline_waypoint_index);
 
     vs_path.resetFlag();
 
