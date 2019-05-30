@@ -22,12 +22,12 @@ void DecisionMakerNode::updateDriveState(cstring_t& state_name, int status)
     return;
   }
 
-  if (current_status_.closest_waypoint == -1)
-  {
-    publishOperatorHelpMessage("The vehicle passed last waypoint or waypoint does not exist near the vehicle.");
-    tryNextState("mission_aborted");
-    return;
-  }
+  // if (current_status_.closest_waypoint == -1)
+  // {
+  //   publishOperatorHelpMessage("The vehicle passed last waypoint or waypoint does not exist near the vehicle.");
+  //   tryNextState("mission_aborted");
+  //   return;
+  // }
 
   if (isVehicleOnLaneArea())
   {
