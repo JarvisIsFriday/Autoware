@@ -801,7 +801,7 @@ int32_t getClosestWaypointNumber(const autoware_msgs::Lane &current_lane, const 
     }
 
     double ratio = 3;
-    double minimum_dt = 2.0;
+    double minimum_dt = 6.0;
     double dt = current_velocity.linear.x * ratio > minimum_dt ? current_velocity.linear.x * ratio : minimum_dt;
 
     auto range_max = static_cast<uint32_t>(previous_number + dt) < current_lane.waypoints.size() ?
