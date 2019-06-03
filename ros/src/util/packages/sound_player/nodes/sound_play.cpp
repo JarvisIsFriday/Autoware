@@ -7,6 +7,7 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <visualization_msgs/MarkerArray.h>
 #include <autoware_msgs/LaneArray.h>
+#include <autoware_msgs/RemoteCmd.h>
 
 #include <sound_play/sound_play.h>
 
@@ -48,6 +49,8 @@ std::map<std::string, std::string> sound_list = {
     {"TrunLeft", "/home/autoware/Downloads/voice/TrunLeft.ogg"},
     {"TryAvoid", "/home/autoware/Downloads/voice/TryAvoid.ogg"},
     {"Alert", "/home/autoware/Downloads/voice/Alert.ogg"},
+    {"Auto", "/home/autoware/Downloads/voice/Auto.ogg"},
+    {"Remote", "/home/autoware/Downloads/voice/Remote.ogg"},
 };
 
 std::vector<BusStop> bus_stop_list = {
@@ -58,40 +61,17 @@ std::vector<BusStop> bus_stop_list = {
 };
 
 std::vector<PlaySoundTiming> play_sound_timing_list = {
-    {"A", "B", "TrunRight", makePoint(90187.5234, 94757.0156, 139.9484), false}, //Uturn
     {"A", "C", "TrunRight", makePoint(90187.5234, 94757.0156, 139.9484), false}, //Uturn
     {"A", "D", "TrunRight", makePoint(90187.5234, 94757.0156, 139.9484), false}, //Uturn
     {"A", "B", "TrunRight", makePoint(90308.2266, 94866.7656, 144.8229), false}, //Uturn
-    {"A", "B", "StoppingSoon", makePoint(90319.2969, 94866.5695, 144.8337), false},
-    {"C", "B", "StoppingSoon", makePoint(90319.2969, 94866.5695, 144.8337), false},
-    {"D", "B", "StoppingSoon", makePoint(90319.2969, 94866.5695, 144.8337), false},
-    {"A", "C", "TrunRight", makePoint(90423.9844, 94884.0234, 144.4115), false},
-    {"A", "D", "TrunRight", makePoint(90423.9844, 94884.0234, 144.4115), false},
-    {"B", "C", "TrunRight", makePoint(90423.9844, 94884.0234, 144.4115), false},
-    {"B", "D", "TrunRight", makePoint(90423.9844, 94884.0234, 144.4115), false},
-    {"A", "C", "StoppingSoon", makePoint(90840.1719, 93923.6328, 139.0343), false},
-    {"B", "C", "StoppingSoon", makePoint(90840.1719, 93923.6328, 139.0343), false},
-    {"D", "C", "StoppingSoon", makePoint(90832.3906, 93897.0078, 138.8064), false},
-    {"C", "D", "TrunRight", makePoint(90830.1016, 93916.2969, 138.8716), false}, //Uturn
-    {"A", "D", "TrunRight", makePoint(90320.3906, 93453.9531, 122.3596), false}, //Uturn
-    {"B", "D", "TrunRight", makePoint(90320.3906, 93453.9531, 122.3596), false}, //Uturn
-    {"C", "D", "TrunRight", makePoint(90320.3906, 93453.9531, 122.3596), false}, //Uturn
-    {"A", "D", "StoppingSoon", makePoint(90318.1875, 93461.7969, 122.0842), false},
-    {"B", "D", "StoppingSoon", makePoint(90318.1875, 93461.7969, 122.0842), false},
-    {"C", "D", "StoppingSoon", makePoint(90318.1875, 93461.7969, 122.0842), false},
-    {"B", "A", "StoppingSoon", makePoint(90194.9531, 94767.3047, 140.0714), false},
-    {"C", "A", "StoppingSoon", makePoint(90194.9531, 94767.3047, 140.0714), false},
-    {"D", "A", "StoppingSoon", makePoint(90194.9531, 94767.3047, 140.0714), false},
-    {"C", "A", "TrunLeft", makePoint(90438.0859, 94868.2031, 144.2884), false},
-    {"D", "A", "TrunLeft", makePoint(90438.0859, 94868.2031, 144.2884), false},
-    {"C", "B", "TrunLeft", makePoint(90438.0859, 94868.2031, 144.2884), false},
-    {"D", "B", "TrunLeft", makePoint(90438.0859, 94868.2031, 144.2884), false},
 };
 
 std::map<std::string, std::string> state_sound_list = {
   {"VehicleReady\nDriveReady\nWaitEngage\n", "Hello"},
-  {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nStraight\nGo\n", "Go"},
+  {"VehicleReady\nDriving\nDrive\n", "Go"},
   {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nStraight\nStop\n", "Stop"},
+  {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nLeftTurn\nL_Go\n", "TrunLeft"},
+  {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nRightTurn\nR_Go\n", "TrunRight"},
   {"VehicleReady\nMissionComplete\nWaitEngage\n", "MissionComplete"},
 };
 
@@ -224,7 +204,7 @@ void stateCallback(const std_msgs::String::ConstPtr &msg)
   state_msg = *msg;
 
   if(state_sound_list.count(state_msg.data) != 0) {
-      playSound(state_sound_list[state_msg.data]);
+    playSound(state_sound_list[state_msg.data]);
   }
 
 }
@@ -233,6 +213,22 @@ void soundnameCallback(const std_msgs::String::ConstPtr &msg)
 {
   if(state_sound_list.count(msg->data) != 0) {
     playSound(state_sound_list[msg->data]);
+  }
+}
+
+void remotecmdCallback(const autoware_msgs::RemoteCmd::ConstPtr &msg)
+{
+  static auto str_msg = *msg;
+  if(str_msg.control_mode == msg->control_mode) {
+    return;
+  }
+  str_msg = *msg;
+
+  if(str_msg.control_mode == 1) {
+    playSound(state_sound_list["Auto"]);
+  }
+  else if(str_msg.control_mode == 2) {
+    playSound(state_sound_list["Remote"]);
   }
 }
 
@@ -268,6 +264,7 @@ int main(int argc, char **argv)
     ros::Subscriber sub3 = node.subscribe("/decision_maker/state", 3, stateCallback);
     ros::Subscriber sub4 = node.subscribe("/sound_name", 1, soundnameCallback);
     ros::Subscriber sub5 = node.subscribe("/obstacle", 1, obstacleCallback);
+    ros::Subscriber sub6 = node.subscribe("/remote_cmd", 1, remotecmdCallback);
 
     marker_pub = node.advertise<visualization_msgs::MarkerArray>("sound_play_marker", 1, true);
 
