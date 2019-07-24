@@ -191,7 +191,7 @@ void AstarAvoid::run()
     }
     else if (state_ == AstarAvoid::STATE::AVOIDING)
     {
-      bool reached = (getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose, closest_waypoint_index_) > end_of_avoid_index);
+      bool reached = (getClosestWaypoint(avoid_waypoints_, current_pose_global_.pose, closest_waypoint_index_) > end_of_avoid_index+10);
       if (reached)
       {
         ROS_INFO("AVOIDING -> RELAYING, Reached goal");

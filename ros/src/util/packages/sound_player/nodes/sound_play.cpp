@@ -67,7 +67,7 @@ std::vector<PlaySoundTiming> play_sound_timing_list = {
 };
 
 std::map<std::string, std::string> state_sound_list = {
-  {"VehicleReady\nDriveReady\nWaitEngage\n", "Hello"},
+//  {"VehicleReady\nDriveReady\nWaitEngage\n", "Hello"},
   {"VehicleReady\nDriving\nDrive\n", "Go"},
   {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nStraight\nStop\n", "Stop"},
   {"VehicleReady\nDriving\nDrive\nLaneArea\nCruise\nLeftTurn\nL_Go\n", "TrunLeft"},
